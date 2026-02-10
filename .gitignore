@@ -1,4 +1,10 @@
+.env
+*.env
 venv/
 .venv/
 __pycache__/
 db.sqlite3
+# Logs
+*.log
+*.log.txt
+documents/*.log.txt
