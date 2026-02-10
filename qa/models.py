@@ -1,4 +1,5 @@
 from django.db import models
+from django.test import TestCase
 
 
 class Project(models.Model):
@@ -6,6 +7,13 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+class Directory(models.Model):
+    
+ project = models.ForeignKey(Project,on_delete=models.CASCADE, related_name='directios', help_text='Proyecto al que pertenece este directorio')
+ test_case = models.ForeignKey(TestCase,on_delete=models.CASCADE,null=True, blank=True, related_name='directios', help_text='al que pertenece este directorio.')
+ name = models.CharField(max_length=120,help_text='Nombre del directorio')
+
 
 
 class TestCase(models.Model):
@@ -24,3 +32,8 @@ class Document(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+    
+    
