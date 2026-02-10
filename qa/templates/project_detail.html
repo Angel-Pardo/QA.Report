@@ -1,0 +1,12 @@
+<h1>{{ project.name }}</h1>
+
+<h2>Test cases</h2>
+<ul>
+  {% for tc in test_cases %}
+    <li>{{ tc.title }}</li>
+  {% empty %}
+    <li>No hay test cases</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'project_list' %}">Volver</a>
