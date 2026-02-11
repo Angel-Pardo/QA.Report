@@ -11,25 +11,20 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-from pathlib import Path
 import os
 import environ
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
-environ.Env.read_env(BASE_DIR / ".env")
+env = environ.Env(
+    DEBUG=(bool, False),
+)
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-
-SECRET_KEY = env("SECRET_KEY")                
-DEBUG = env.bool("DEBUG", default=True)
-
-
-ALLOWED_HOSTS = []
-
+SECRET_KEY = env("SECRET_KEY", default=get_random_secret_key())
+DEBUG = env("DEBUG")
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Application definition
 
@@ -119,3 +114,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'documents'
+
+DEBUG = True
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]

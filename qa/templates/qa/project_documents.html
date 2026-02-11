@@ -1,0 +1,27 @@
+<h1>Documentos</h1>
+
+<p>Proyecto: <strong>{{ testcase.project.name }}</strong></p>
+<p>Test case: <strong>{{ testcase.title }}</strong></p>
+
+{% if documents %}
+  <ul>
+    {% for doc in documents %}
+      <li>
+        {{ doc.title }}
+        {% if doc.file %}
+          — <a href="{{ doc.file.url }}" target="_blank" rel="noopener">abrir</a>
+        {% else %}
+          — <em>sin archivo</em>
+        {% endif %}
+        <small style="color:#777">({{ doc.created_at|date:"Y-m-d H:i" }})</small>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No hay documentos para este test case.</p>
+{% endif %}
+
+<p>
+  <a href="{% url 'qa:project_detail' testcase.project.pk %}">Volver al proyecto</a> |
+  <a href="{% url 'qa:project_list' %}">Proyectos</a>
+</p>
