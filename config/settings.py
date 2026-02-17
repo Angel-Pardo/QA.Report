@@ -18,12 +18,13 @@ from django.core.management.utils import get_random_secret_key
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
-    DEBUG=(bool, False),
+    DEBUG= True,
 )
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 SECRET_KEY = env("SECRET_KEY", default=get_random_secret_key())
-DEBUG = env("DEBUG")
+DEBUG = env.bool("DEBUG", default=True)
+
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Application definition
@@ -115,8 +116,5 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'documents'
-
-DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"

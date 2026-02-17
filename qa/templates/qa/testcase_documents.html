@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ testcase.title }} - Documents</title>
+  </head>
+  <body>
+    <h1>Test case: {{ testcase.title }}</h1>
+    <p><strong>Project:</strong> {{ testcase.project.name }}</p>
+
+    <h2>Documents</h2>
+
+    {% if documents %}
+      <ul>
+        {% for d in documents %}
+          <li>
+            <strong>{{ d.title }}</strong>
+             {% if d.file %}
+                <a href="{{ d.file.url }}" target="_blank">Open file</a>
+               {% else %}
+                <em>No file uploaded</em>
+             {% endif %}
+
+            <br />
+            <small>Uploaded: {{ d.created_at }}</small>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No documents uploaded for this test case.</p>
+    {% endif %}
+
+    <hr />
+    <p>
+      <a href="{% url 'qa:project_detail' testcase.project.id %}">← Back to project</a>
+      |
+      <a href="{% url 'qa:project_list' %}">Back to projects</a>
+    </p>
+  </body>
+</html>

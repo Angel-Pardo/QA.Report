@@ -1,11 +1,25 @@
-<h1>Proyectos</h1>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Projects</title>
+  </head>
+  <body>
+    <h1>Projects</h1>
 
-<ul>
-  {% for p in projects %}
-    <li>
-      <a href="{% url 'qa:project_detail' p.pk %}">{{ p.name }}</a>
-    </li>
-  {% empty %}
-    <li>No hay proyectos</li>
-  {% endfor %}
-</ul>
+    {% if projects %}
+      <ul>
+        {% for p in projects %}
+          <li>
+            <a href="{% url 'qa:project_detail' p.id %}">{{ p.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No projects yet.</p>
+    {% endif %}
+
+    <hr />
+    <p><a href="/admin/">Go to admin</a></p>
+  </body>
+</html>

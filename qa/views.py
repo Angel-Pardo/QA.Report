@@ -10,7 +10,8 @@ def project_detail(request, pk):
     test_cases = TestCase.objects.filter(project=project).order_by('title')
     return render(request, 'qa/project_detail.html', {
         'project': project,
-        'test_cases': test_cases,
+        'testcases': test_cases,
+
     })
 
 def testcase_documents(request, pk):

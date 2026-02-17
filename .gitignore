@@ -8,3 +8,7 @@ db.sqlite3
 *.log
 *.log.txt
 documents/*.log.txt
+media/
+.env
+db.sqlite3
+.venv/
