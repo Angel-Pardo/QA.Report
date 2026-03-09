@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Auditorías</h1>
+
+    {% if audits %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Tipo</th>
+                        <th>Área</th>
+                        <th>Estatus</th>
+                        <th>Fecha planeada</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for audit in audits %}
+                        <tr>
+                            <td>{{ audit.title }}</td>
+                            <td>{{ audit.get_audit_type_display }}</td>
+                            <td>{{ audit.area }}</td>
+                            <td>{{ audit.get_status_display }}</td>
+                            <td>{{ audit.planned_date }}</td>
+                            <td>
+                                <a href="{% url 'audits:audit_detail' audit.pk %}" class="btn btn-sm btn-primary">
+                                    Ver detalle
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay auditorías registradas.</p>
+    {% endif %}
+</div>
+{% endblock %}

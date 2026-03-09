@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-3">{{ audit.title }}</h1>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <p><strong>Tipo:</strong> {{ audit.get_audit_type_display }}</p>
+            <p><strong>Área:</strong> {{ audit.area }}</p>
+            <p><strong>Objetivo:</strong> {{ audit.objective }}</p>
+            <p><strong>Fecha planeada:</strong> {{ audit.planned_date }}</p>
+            <p><strong>Fecha de ejecución:</strong> {{ audit.execution_date|default:"Sin registrar" }}</p>
+            <p><strong>Estatus:</strong> {{ audit.get_status_display }}</p>
+            <p><strong>Auditor:</strong> {{ audit.auditor|default:"Sin asignar" }}</p>
+            <p><strong>Área responsable:</strong> {{ audit.responsible_area|default:"Sin asignar" }}</p>
+        </div>
+    </div>
+
+    <h2 class="h4">Criterios</h2>
+    {% if audit.criteria.all %}
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Descripción</th>
+                        <th>Resultado</th>
+                        <th>Observación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for criterion in audit.criteria.all %}
+                        <tr>
+                            <td>{{ criterion.item_number }}</td>
+                            <td>{{ criterion.description }}</td>
+                            <td>{{ criterion.get_result_display }}</td>
+                            <td>{{ criterion.observation }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay criterios registrados.</p>
+    {% endif %}
+
+    <h2 class="h4">No conformidades</h2>
+    {% if audit.non_conformities.all %}
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo</th>
+                        <th>Descripción</th>
+                        <th>Responsable</th>
+                        <th>Estatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for nc in audit.non_conformities.all %}
+                        <tr>
+                            <td>{{ nc.id }}</td>
+                            <td>{{ nc.get_nc_type_display }}</td>
+                            <td>{{ nc.description }}</td>
+                            <td>{{ nc.responsible }}</td>
+                            <td>{{ nc.get_status_display }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay no conformidades registradas.</p>
+    {% endif %}
+
+    <a href="{% url 'audits:audit_list' %}" class="btn btn-outline-secondary">
+        ← Volver a auditorías
+    </a>
+</div>
+{% endblock %}
