@@ -1,27 +1,62 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{{ project.name }}</title>
-  </head>
-  <body>
-    <h1>Project: {{ project.name }}</h1>
+{% extends "base.html" %}
+{% block title %}{{ project.name }} | QA Report{% endblock %}
 
-    <h2>Test cases</h2>
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <div>
+    <h3 class="fw-bold mb-0">{{ project.name }}</h3>
+    <div class="text-secondary">Test Cases y últimos documentos.</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'qa:project_list' %}">← Volver</a>
+</div>
 
-    {% if testcases %}
-      <ul>
-        {% for tc in testcases %}
-          <li>
-            <a href="{% url 'qa:testcase_documents' tc.id %}">{{ tc.title }}</a>
-          </li>
+<div class="row g-3">
+  <div class="col-12 col-lg-6">
+    <div class="card p-3">
+      <h5 class="fw-bold mb-2">Test Cases</h5>
+
+      <div class="list-group">
+        {% for tc in test_cases %}
+          <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+             href="{% url 'qa:testcase_documents' tc.pk %}">
+            <span class="fw-semibold">{{ tc.title }}</span>
+            <span class="badge text-bg-light border">Abrir</span>
+          </a>
+        {% empty %}
+          <div class="text-secondary">No hay test cases en este proyecto.</div>
         {% endfor %}
-      </ul>
-    {% else %}
-      <p>No test cases for this project.</p>
-    {% endif %}
+      </div>
+    </div>
+  </div>
 
-    <hr />
-    <p><a href="{% url 'qa:project_list' %}">← Back to projects</a></p>
-  </body>
-</html>
+  <div class="col-12 col-lg-6">
+    <div class="card p-3">
+      <h5 class="fw-bold mb-2">Documentos recientes</h5>
+
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Categoría</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for d in recent_docs %}
+              <tr>
+                <td class="fw-semibold">{{ d.title }}</td>
+                <td><span class="badge text-bg-secondary">{{ d.get_category_display }}</span></td>
+                <td class="text-secondary small">{{ d.created_at|date:"Y-m-d H:i" }}</td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="3" class="text-secondary">Sin documentos recientes.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

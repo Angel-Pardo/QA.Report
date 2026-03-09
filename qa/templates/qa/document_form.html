@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Documento | QA Report{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <div>
+    <h3 class="fw-bold mb-0">Documento</h3>
+    <div class="text-secondary">{{ test_case.project.name }} · {{ test_case.title }}</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'qa:testcase_documents' test_case.pk %}">← Volver</a>
+</div>
+
+<div class="card p-4">
+  <form method="post" enctype="multipart/form-data" class="row g-3">
+    {% csrf_token %}
+
+    <div class="col-12 col-md-6">
+      <label class="form-label">Título</label>
+      {{ form.title }}
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label class="form-label">Categoría</label>
+      {{ form.category }}
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label class="form-label">Versión</label>
+      {{ form.version }}
+    </div>
+
+    <div class="col-12 col-md-6">
+      <label class="form-label">Carpeta (Directory)</label>
+      {{ form.directory }}
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Notas</label>
+      {{ form.notes }}
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Tags</label>
+      {{ form.tags }}
+    </div>
+
+    <div class="col-12">
+      <label class="form-label">Archivo</label>
+      {{ form.file }}
+    </div>
+
+    <div class="col-12 d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a class="btn btn-outline-secondary" href="{% url 'qa:testcase_documents' test_case.pk %}">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
