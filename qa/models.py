@@ -36,12 +36,10 @@ class Directory(models.Model):
         unique_together = ("project", "test_case", "name")
         ordering = ("name",)
 
-
     def __str__(self):
         if self.test_case:
-            return f"{self.project.name} / {self.test_case.name} / {self.name}"
+            return f"{self.project.name} / {self.test_case} / {self.name}"
         return f"{self.project.name} / {self.name}"
-
 
 
 class DocumentCategory(models.TextChoices):
@@ -55,13 +53,16 @@ class DocumentCategory(models.TextChoices):
 
 def document_upload_to(instance, filename):
     project = None
+
     if instance.test_case_id:
         project = instance.test_case.project
+    elif instance.directory_id:
+        project = instance.directory.project
 
     project_part = slugify(project.name) if project else "no-project"
 
-    if instance.directory_id and instance.directory.slug:
-        dir_part = instance.directory.slug
+    if instance.directory_id:
+        dir_part = slugify(instance.directory.name)
     else:
         dir_part = "root"
 
